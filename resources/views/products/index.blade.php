@@ -19,6 +19,16 @@
             <td>{{$producto->categoria}}</td>
             <td>{{$producto->cantidad}}</td>
             <td>{{$producto->precio}}</td>
+            <td>
+            <a href="{{url('/products/'.$producto->id.'/edit')}}">
+            Editar
+            </a>
+            <form method="post" action="{{url('/products/'.$producto->id)}}">
+            {{csrf_field()}}
+            {{method_field('DELETE')}}
+            <button type="submit" onclick="return confirm('Desea Eliminar su informacion');">Borrar</button>
+            </form>
+            </td>
         </tr>
     @endforeach
     </tbody>
