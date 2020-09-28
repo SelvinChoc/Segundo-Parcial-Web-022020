@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -52,13 +53,16 @@
             }
 
             .links > a {
-                color: #FFFFFF;
+                color: #ffffff;
                 padding: 0 25px;
                 font-size: 13px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
+                position: 15px;
+                background-color: #000;
+                
             }
 
             .m-b-md {
@@ -68,9 +72,12 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
+        
             @if (Route::has('home'))
-                <div class="top-right links">
-                        <a href="{{ url('/products') }}">Entrar</a>
+                <div class="top-right btn btn-success btn-sm">
+                
+
+                        <a class="btn btn-success btn-sm" href="{{ url('/products') }}">Entrar</a>
                 </div>
             @endif
 
@@ -80,6 +87,7 @@
                 </div>
 
                 <div class="links">
+                <a class="btn btn-success btn-sm" href="{{ url('/products') }}">Entrar</a>
                 </div>
             </div>
         </div>

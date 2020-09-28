@@ -13,11 +13,23 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $datos['products']=Products::paginate(5);
-        return view("products.index",$datos);
+        $keyword = $request->get('search');
+        $perPage = 25;
+
+        if (!empty($keyword)) {
+            $products = product::where('nombre', 'LIKE', "%$keyword%")
+                ->orWhere('descripcion', 'LIKE', "%$keyword%")
+                ->orWhere('categoria', 'LIKE', "%$keyword%")
+                ->orWhere('cantidad', 'LIKE', "%$keyword%")
+                ->orWhere('precio', 'LIKE', "%$keyword%")
+                ->latest()->paginate($perPage);
+        } else {
+            $products = product::latest()->paginate($perPage);
+        }
+
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -43,8 +55,9 @@ class ProductController extends Controller
         //$datosproducto=request()->all();
         $datosproducto=request()->except('_token');
         Products::insert($datosproducto);
-        return response()->json($datosproducto);
-        
+        //return response()->json($datosproducto);
+        return redirect("products")->with('Mensaje','Producto registrado correctamente');
+
         
     }
 
@@ -84,8 +97,9 @@ class ProductController extends Controller
         //
         $datosproducto=request()->except(['_token','_method']);
         Products::where('id','=',$id)->update($datosproducto);  
-        $product=Products::findOrFail($id);
-        return view('products.edit',compact('product'));
+        //$product=Products::findOrFail($id);
+        //return view('products.edit',compact('product'));
+        return redirect("products")->with('Mensaje','Producto modificado correctamente');
     }
 
     /**
@@ -94,10 +108,10 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
         //
         Products::destroy($id); 
-        return redirect('products');
+        return redirect("products")->with('Mensaje','Producto eliminado correctamente');
     }
 }
