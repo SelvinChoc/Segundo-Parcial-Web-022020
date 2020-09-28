@@ -1,11 +1,24 @@
-<table class="table table-light">
+@extends('layouts.app')
+@section('content')
+<div class="container">
+
+@if(Session::has('Mensaje'))
+<div class="alert alert-success" role="alert">
+    {{Session::get('Mensaje')}}
+</div>
+
+@endif
+<a href="{{url('products/create')}}" class="btn btn-success">Agregar producto</a>
+<br/>
+<br/>
+<table class="table table-light table-hover" >
     <thead class="thead-light">
         <tr>
             <th>#</th>
             <th>Nombre</th>
-            <th>descripcion</th>
-            <th>categoria</th>
-            <th>cantidad</th>
+            <th>Descripcion</th>
+            <th>Categoria</th>
+            <th>Cantidad</th>
             <th>Precio</th>
             <th>Acciones</th>
         </tr>
@@ -20,16 +33,19 @@
             <td>{{$producto->cantidad}}</td>
             <td>{{$producto->precio}}</td>
             <td>
-            <a href="{{url('/products/'.$producto->id.'/edit')}}">
+            <a class="btn btn-dark" href="{{url('/products/'.$producto->id.'/edit')}}">
             Editar
             </a>
-            <form method="post" action="{{url('/products/'.$producto->id)}}">
+            <form method="post" action="{{url('/products/'.$producto->id)}}" style="display:inline">
             {{csrf_field()}}
             {{method_field('DELETE')}}
-            <button type="submit" onclick="return confirm('Desea Eliminar su informacion');">Borrar</button>
+            <button class="btn btn-danger" type="submit" onclick="return confirm('Desea Eliminar su informacion');">Borrar</button>
             </form>
             </td>
         </tr>
     @endforeach
     </tbody>
 </table>
+{{$products->links()}}
+</div>
+@endsection
